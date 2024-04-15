@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1> 오늘의 시험 </h1>
+
+<hr>
+<form action="{% url 'questions:complete'%}" method="POST" >
+    {% for question in questions %}
+        <p>문제 번호 : {{question.num}}</p>
+        <p>문제 형식 : {% if question.m1 %}객관식{% else %}주관식{% endif %}</p>
+        <p>문제 내용 : {{question.title}} </p>
+        {% if question.type == 'M' %}
+            <p id = 'questionFormM'> A. {{question.m1}}</p>
+            <p id = 'questionFormM'> B. {{question.m2}}</p>
+            <p id = 'questionFormM'> C. {{question.m3}}</p>
+            <p id = 'questionFormM'> D. {{question.m4}}</p> 
+            
+            {% csrf_token %}
+            
+            답 : <select name="{{ question.pk }}-{{ question.type }}-select" id="{{ question.pk }}-{{ question.type }}-select">
+                <option value="---------">---------</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+
+            {% comment %} {{ question_form.content_m }} {% endcomment %}
+        {% else %}
+
+            {% csrf_token %}
+
+            답 : <input type="text" id="{{ question.pk }}-{{ question.type }}-select" name="{{ question.pk }}-{{ question.type }}-select">
+
+            {% comment %} {{ question_form.content_s }} {% endcomment %}
+            
+        {% endif %}
+        <hr>
+    {% endfor %}
+    <input type="submit" id = "submit-btn" value="제출하기">
+</form>
+
+
+{% endblock content %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+    <h2 id = 'questionFormM'>문제 번호 : {{question.num}}</h2>
+
+    <P id = 'questionFormM'>문제 내용 : {{question.title}}</P>
+    {% if question.image %}
+        <img src="{{ question.image.url }}" alt="img">
+    {% endif %}
+    {% if question.type == 'M' %}
+        <p id = 'questionFormM'> A. {{question.m1}}</p>
+        <p id = 'questionFormM'> B. {{question.m2}}</p>
+        <p id = 'questionFormM'> C. {{question.m3}}</p>
+        <p id = 'questionFormM'> D. {{question.m4}}</p>
+        <p id = 'questionFormM'> 정답 : {{question.answer_m}}</p>
+    {% else %}
+        <P id = 'questionFormM'>정답 : {{question.answer_s}}</P>
+    {% endif %}
+
+    
+    <hr>
+
+
+
+    <form action="{% url 'questions:delete' question.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="DELETE">
+    </form>
+
+
+    <hr>
+    <a href="{% url 'questions:index' %}">[back]</a>
+{% endblock content %}
+
+

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1><홈> 문제 출제 페이지</h1>
+
+<hr>
+
+<a href="{% url 'questions:create' %}">문제 출제</a>
+
+<hr>
+
+<a href="{% url "questions:user" %}">시험 보기</a>
+
+<hr>
+
+<a href="{% url "questions:grading" %}">채점 하기</a>
+
+<hr>
+<form action="{% url 'questions:complete'%}" method="POST" >
+    {% for question in questions %}
+        <a href="{% url "questions:detail" question.pk %}">
+            <p>문제 번호 : {{question.num}}</p>
+        </a>
+        <p>문제 형식 : {% if question.m1 %}객관식{% else %}주관식{% endif %}</p>
+
+        {% if question.image %}
+            <img src="{{ question.image.url }}" alt="img">
+        {% endif %}
+
+        <p>문제 내용 : {{question.title}} </p>
+
+        {% if question.type == 'M' %}
+            <p id = 'questionFormM'> A. {{question.m1}}</p>
+            <p id = 'questionFormM'> B. {{question.m2}}</p>
+            <p id = 'questionFormM'> C. {{question.m3}}</p>
+            <p id = 'questionFormM'> D. {{question.m4}}</p> 
+            
+            {% csrf_token %}
+
+            정답 : <select name="{{ question.pk }}-{{ question.type }}-select" id="{{ question.pk }}-{{ question.type }}-select">
+                <option value="---------">---------</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="D">D</option>
+            </select>
+
+            {% comment %} {{ question_form.content_m }} {% endcomment %}
+        {% else %}
+
+            {% csrf_token %}
+
+            정답 : <input type="text" id="{{ question.pk }}-{{ question.type }}-select" name="{{ question.pk }}-{{ question.type }}-select">
+
+            {% comment %} {{ question_form.content_s }} {% endcomment %}
+            
+        {% endif %}
+        <hr>
+    {% endfor %}
+    <input type="submit" id = "submit-btn" value="제출 TEST">
+
+</form>
+{% endblock content %}
+
+

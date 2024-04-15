@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>문제 출제 페이지</h1>
+
+
+    <form action="{% url 'questions:create' %}" method="POST" id="questionTypeForm">
+      {% csrf_token %}
+      {% comment %} {{ form.as_p }} {% endcomment %}
+      {{ form.type }}
+      <button type="button" onclick="showForm()">유형 선택</button>
+    </form>
+
+    <form id="formM" action="{% url 'questions:create' %}" enctype="multipart/form-data" method="POST" style="display:none;">
+        {% csrf_token %}
+        <select name="type" required id="id_type" style="display:none">
+          <option value="">---------</option>       
+          <option value="M" selected>객관식</option>     
+          <option value="S">주관식</option>  
+        </select>
+        <br>
+        {{ form.num.label_tag }}
+        {{ form.num}}
+        <br>
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        <br>
+        {{ form.m1.label_tag }}
+        {{ form.m1 }}
+        <br>
+        {{ form.m2.label_tag }}
+        {{ form.m2 }}
+        <br>
+        {{ form.m3.label_tag }}
+        {{ form.m3 }}
+        <br>
+        {{ form.m4.label_tag }}
+        {{ form.m4 }}
+        <br>
+        {{form.image.label_tag}}
+        {{form.image}}
+        <hr>
+        {{form.answer_m.label_tag}}
+        {{form.answer_m}}
+        <input type="submit" value="Submit">
+    </form>
+
+    <form id="formS" action="{% url 'questions:create' %}" enctype="multipart/form-data" method="POST" style="display:none;">
+        {% csrf_token %}
+        {% comment %} {{ form_s.as_p }} {% endcomment %}
+        <select name="type" required id="id_type" style="display:none">
+          <option value="">---------</option>       
+          <option value="M">객관식</option>     
+          <option value="S" selected>주관식</option>  
+        </select>
+        <br>
+        {{ form.num.label_tag }}
+        {{ form.num}}
+        <br>
+        {{ form.title.label_tag }}
+        {{ form.title }}
+        <br>
+        {{form.image.label_tag}}
+        {{form.image}}
+        <br>
+        {{ form.answer_s.label_tag }}
+        {{ form.answer_s }}
+        <br>
+        <input type="submit" value="Submit">
+    </form> 
+
+
+    <hr>
+
+
+    <a href="{% url 'questions:index' %}">[back]</a>
+{% endblock content %}
+
+    {% comment %} 객관식, 주관식 선택 토글버튼 {% endcomment %}
+    {% comment %} <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          문제 유형
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" onclick="setType('M')">객관식</a></li>
+          <li><a class="dropdown-item" href="#" onclick="setType('S')">주관식</a></li>
+        </ul>
+    </div>
+
+
+    <form id="questionFormM" action="{% url 'questions:create' %}" method="POST" style="display:none;">
+      {% csrf_token %}
+      {{ form_m.as_p }}
+      <input type="submit">
+    </form>
+  
+    <form id="questionFormS" action="{% url 'questions:create' %}" method="POST" style="display:none;">
+      {% csrf_token %}
+      {{ form_s.as_p }}
+      <input type="submit">
+    </form> {% endcomment %}

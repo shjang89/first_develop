@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1>채점 페이지</h1>
+
+{% for item in result %}
+    {% if forloop.first %}
+        <p>Name: {{ item.name }}</p>
+        <p>E-mail: {{ item.e_mail }}</p>
+        <p>첫 제출: {{ item.created_at }}</p>
+        <p>마지막 제출: {{ item.updated_at }}</p>
+        <p>총 점수: {{total}}</p>
+    {% endif %}
+
+    <p>{{item.num}} 번: {{ item.content }}</p>
+    <p>{{item.num}} 번 정답: {{item.answer }}</p>
+    <p>{{item.num}} 번 점수: {{item.grade }}</p>
+{% endfor %}
+
+<hr>
+<a href="{% url 'questions:index' %}">[back]</a>
+{% endblock content %}
+
+
+
